@@ -1863,7 +1863,7 @@ std::string::size_type HunspellImpl::get_xml_pos(const std::string& s, std::stri
     pos = s.find(attr, pos);
     if (pos == std::string::npos || pos >= endpos)
       return std::string::npos;
-    if (s[pos - 1] == ' ' || s[pos - 1] == '\n')
+    if (pos == 0 || s[pos - 1] == ' ' || s[pos - 1] == '\n')
       break;
     pos += strlen(attr);
   }
