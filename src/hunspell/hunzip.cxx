@@ -191,7 +191,7 @@ int Hunzip::getbuf() {
         }
         out[o++] = dec[oldp].c[0];
         out[o++] = dec[oldp].c[1];
-        if (o == BUFSIZE)
+        if (o >= BUFSIZE)
           return o;
         p = dec[p].v[b];
       }
