@@ -654,6 +654,7 @@ warn.good \
 timelimit.aff \
 timelimit.dic \
 timelimit.good \
+timelimit.sug \
 timelimit.wrong \
 ignoresug.aff \
 ignoresug.dic \
