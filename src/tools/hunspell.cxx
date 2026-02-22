@@ -652,7 +652,7 @@ char* mymkdtemp(char *templ) {
   if (!odftmpdir) {
     return NULL;
   }
-  if (system((std::string("mkdir ") + odftmpdir).c_str()) != 0) {
+  if (system((std::string("mkdir \"") + odftmpdir + "\"").c_str()) != 0) {
     return NULL;
   }
   return odftmpdir;
@@ -688,7 +688,7 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
     }
     if (!secure_filename(filename)) {
       fprintf(stderr, gettext("Can't open %s.\n"), filename);
-      if (system((std::string("rmdir ") + odftmpdir).c_str()) != 0) {
+      if (system((std::string("rmdir \"") + odftmpdir + "\"").c_str()) != 0) {
         perror("temp dir delete failed");
       }
       exit(1);
@@ -701,7 +701,7 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
             ">" << odftmpdir << "/content.xml";
     if (system(sbuf.str().c_str()) != 0) {
       perror(gettext("Can't open inputfile"));
-      if (system((std::string("rmdir ") + odftmpdir).c_str()) != 0) {
+      if (system((std::string("rmdir \"") + odftmpdir + "\"").c_str()) != 0) {
         perror("temp dir delete failed");
       }
       exit(1);
@@ -711,7 +711,7 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
     fileid = fopen(file.c_str(), "r");
     if (fileid == NULL) {
       perror(gettext("Can't open inputfile"));
-      if (system((std::string("rmdir ") + odftmpdir).c_str()) != 0) {
+      if (system((std::string("rmdir \"") + odftmpdir + "\"").c_str()) != 0) {
         perror("temp dir delete failed");
       }
       exit(1);
@@ -1042,7 +1042,7 @@ nextline:
       perror("temp file delete failed");
     }
     sbuf.str("");
-    sbuf << "rmdir " << odftmpdir;
+    sbuf << "rmdir \"" << odftmpdir << "\"";
     if (system(sbuf.str().c_str()) != 0) {
       perror("temp dir delete failed");
     }
@@ -1608,7 +1608,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
     if (!secure_filename(filename)) {
       fprintf(stderr, gettext("Can't open %s.\n"), filename);
       endwin();
-      (void)system((std::string("rmdir ") + odftmpdir).c_str());
+      (void)system((std::string("rmdir \"") + odftmpdir + "\"").c_str());
       exit(1);
     }
     // break 1-line XML of zipped ODT documents at </style:style> and </text:p>
@@ -1620,7 +1620,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
     if (system(sbuf.str().c_str()) != 0) {
       perror(gettext("Can't open inputfile"));
       endwin();
-      (void)system((std::string("rmdir ") + odftmpdir).c_str());
+      (void)system((std::string("rmdir \"") + odftmpdir + "\"").c_str());
       exit(1);
     }
     odffilename = filename;
@@ -1631,7 +1631,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
     if (!text) {
       perror(gettext("Can't open inputfile"));
       endwin();
-      (void)system((std::string("rmdir ") + odftmpdir).c_str());
+      (void)system((std::string("rmdir \"") + odftmpdir + "\"").c_str());
       exit(1);
     }
   }
@@ -1661,7 +1661,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
               perror("temp file delete failed");
             }
             std::ostringstream sbuf;
-            sbuf << "rmdir " << odftmpdir;
+            sbuf << "rmdir \"" << odftmpdir << "\"";
             if (system(sbuf.str().c_str()) != 0) {
               perror("temp dir delete failed");
             }
@@ -1694,7 +1694,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
       fclose(text);
       if (bZippedOdf && odffilename && secure_filename(odffilename)) {
         std::ostringstream sbuf;
-        sbuf << "zip -j \"" << odffilename << "\" " << filename;
+        sbuf << "zip -j \"" << odffilename << "\" \"" << filename << "\"";
         if (system(sbuf.str().c_str()) != 0)
           perror("write failed");
       }
@@ -1706,7 +1706,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
       perror("temp file delete failed");
     }
     std::ostringstream sbuf;
-    sbuf << "rmdir " << odftmpdir;
+    sbuf << "rmdir \"" << odftmpdir << "\"";
     if (system(sbuf.str().c_str()) != 0) {
       perror("temp dir delete failed");
     }
