@@ -1692,7 +1692,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
           perror("write failed");
       }
       fclose(text);
-      if (bZippedOdf && odffilename) {
+      if (bZippedOdf && odffilename && secure_filename(odffilename)) {
         std::ostringstream sbuf;
         sbuf << "zip -j \"" << odffilename << "\" " << filename;
         if (system(sbuf.str().c_str()) != 0)
