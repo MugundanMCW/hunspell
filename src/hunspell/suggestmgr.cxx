@@ -72,6 +72,7 @@
 #include <cstring>
 #include <cstdio>
 #include <cctype>
+#include <chrono>
 #include <ctime>
 
 #include "suggestmgr.hxx"
@@ -497,10 +498,13 @@ int SuggestMgr::replchars(std::vector<std::string>& wlst,
   if (wl < 2 || !pAMgr)
     return wlst.size();
   const std::vector<replentry>& reptable = pAMgr->get_reptable();
+  auto replchars_start = std::chrono::steady_clock::now();
   for (const auto& entry : reptable) {
     size_t r = 0;
     // search every occurence of the pattern in the word
     while ((r = word.find(entry.pattern, r)) != std::string::npos) {
+      if (std::chrono::steady_clock::now() - replchars_start > std::chrono::milliseconds(TIMELIMIT_SUGGESTION_MS))
+        return wlst.size();
       int type = (r == 0) ? 1 : 0;
       if (r + entry.pattern.size() == word.size())
         type += 2;
